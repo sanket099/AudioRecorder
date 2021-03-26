@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">AudioRecorder</string>
+    <string name="dialogTitle">Delete Audio?</string>
+    <string name="dialogMessage">Are you sure you want to delete the audio</string>
+</resources>
