@@ -3,6 +3,7 @@ package com.sanket.audiorecorder
 import android.Manifest
 import android.content.ContentValues
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.media.MediaRecorder
 import android.os.Bundle
@@ -87,7 +88,7 @@ class MainActivity : AppCompatActivity() {
         _binding.btnList.setOnClickListener(View.OnClickListener {
 
 
-            // startActivity(Intent(applicationContext, RecordingsActivity::class.java))
+             startActivity(Intent(context, AudioFilesActivity::class.java))
         })
     }
 
