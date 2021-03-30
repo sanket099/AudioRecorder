@@ -3,7 +3,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:background="@color/black"
     android:layout_height="match_parent"
     tools:context=".AudioFilesActivity">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:listitem="@layout/audio_files_list"
+        android:id="@+id/rv_audio_files"
+        />
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

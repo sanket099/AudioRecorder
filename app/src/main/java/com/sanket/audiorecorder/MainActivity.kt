@@ -24,7 +24,7 @@ class MainActivity : AppCompatActivity() {
 
     private var myAudioRecorder: MediaRecorder? = null
 
-    private var isRecording: Boolean = false
+
     private lateinit var _binding: ActivityMainBinding
     lateinit var context: Context
     private lateinit var audioFile:String
