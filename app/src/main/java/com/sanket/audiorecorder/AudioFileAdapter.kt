@@ -1,14 +1,15 @@
 package com.sanket.audiorecorder
 
 
-import android.content.ClipData
+
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import org.w3c.dom.Text
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 class AudioFileAdapter(context: Context, audioArrayList: ArrayList<AudioFileClass>) : RecyclerView.Adapter<AudioFileAdapter.viewHolder>() {
@@ -27,9 +28,16 @@ class AudioFileAdapter(context: Context, audioArrayList: ArrayList<AudioFileClas
 
     override fun onBindViewHolder(holder: viewHolder, i: Int) {
         holder.title.text = audioArrayList[i].getTitle()
-        holder.date.text = audioArrayList[i].getDate()
+        holder.date.text = audioArrayList[i].getDate()!!.toString()
         holder.duration.text = audioArrayList[i].getDuration()
+
+        //storage
+
         holder.storage.text = audioArrayList[i].getStorage()
+
+
+
+
     }
 
     override fun getItemCount(): Int {
@@ -47,9 +55,10 @@ class AudioFileAdapter(context: Context, audioArrayList: ArrayList<AudioFileClas
             date = itemView.findViewById(R.id.audio_date)
             duration = itemView.findViewById(R.id.audio_duration)
             storage = itemView.findViewById(R.id.audio_size)
-            itemView.setOnClickListener { v -> onItemClickListener!!.onItemClick(getItemId(adapterPosition),v) }
+            itemView.setOnClickListener { v -> onItemClickListener!!.onItemClick(audioArrayList[adapterPosition], v) }
         }
     }
+
 
 
     fun setOnItemClick(onItemClickListener: OnItemClickListener?) {
@@ -57,8 +66,9 @@ class AudioFileAdapter(context: Context, audioArrayList: ArrayList<AudioFileClas
     }
 
     interface OnItemClickListener {
-        fun onItemClick(itemId: Long, v: View? )
+        fun onItemClick(item: AudioFileClass, v: View?)
     }
+
 
 
 }

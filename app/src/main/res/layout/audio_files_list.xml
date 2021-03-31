@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
 
         android:layout_height="wrap_content"
-        android:background="@color/black"
+
         app:cardBackgroundColor="@color/black"
         app:layout_constraintCircleRadius="30sp"
         app:cardCornerRadius="10dp"
@@ -25,8 +25,8 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:paddingBottom="20dp"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            >
 
             <TextView
                 android:id="@+id/audio_title"
@@ -34,11 +34,12 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:layout_marginEnd="110dp"
+                android:layout_marginTop="20dp"
                 android:ellipsize="end"
                 android:fontFamily="@font/open_sans_semibold"
                 android:padding="10dp"
                 android:text="RECmmddyyyyhhmm.mp3"
-                android:textColor="#FFFFFF"
+                android:textColor="@color/highlight"
                 android:textSize="18sp"
                 app:layout_constraintBaseline_toBaselineOf="@+id/audio_duration"
                 app:layout_constraintEnd_toStartOf="@+id/audio_duration"
@@ -54,16 +55,20 @@
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginEnd="110dp"
+                android:layout_marginBottom="9dp"
                 android:ellipsize="end"
                 android:fontFamily="@font/open_sans_semibold"
                 android:padding="10dp"
                 android:text="mmddyyyyhhmm"
-                android:textColor="#FFFFFF"
+                android:textColor="@color/highlight"
 
                 android:textSize="16sp"
+                android:visibility="visible"
                 app:layout_constraintBaseline_toBaselineOf="@+id/audio_size"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/audio_size"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/audio_duration" />
 
             <TextView
                 android:id="@+id/audio_duration"
@@ -76,7 +81,7 @@
 
                 android:padding="10dp"
                 android:text="00:00"
-                android:textColor="#FFFFFF"
+                android:textColor="@color/highlight"
                 android:textSize="14sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -85,17 +90,25 @@
                 android:id="@+id/audio_size"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="36dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="40dp"
                 android:fontFamily="@font/open_sans_semibold"
 
                 android:padding="10dp"
 
                 android:text="16MB"
-                android:textColor="#FFFFFF"
+                android:textColor="@color/highlight"
                 android:textSize="14sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/audio_duration" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_marginTop="20dp"
+                android:background="@color/highlight"
+                app:layout_constraintTop_toBottomOf="@+id/audio_date"
+                tools:layout_editor_absoluteX="0dp" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

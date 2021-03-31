@@ -16,6 +16,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.sanket.audiorecorder.databinding.ActivityMainBinding
 import java.io.File
+import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -33,6 +34,7 @@ class MainActivity : AppCompatActivity() {
     var second = -1
     var minute:Int = 0
     var hour:Int = 0
+    private lateinit var myDirectory : File
 
     private val RECORD_REQUEST_CODE = 11
 
@@ -43,13 +45,75 @@ class MainActivity : AppCompatActivity() {
         context = this@MainActivity
 
         if (checkPermssion()) {
-
+            _binding.btnRecord.isEnabled = true;
+            _binding.btnList.isEnabled = true;
+            _binding.btnStop.isEnabled = true;
             setAudioRecorder()
 
         } else {
+            _binding.btnRecord.isEnabled = false;
+            _binding.btnList.isEnabled = false;
+            _binding.btnStop.isEnabled = false;
 
             requestPermission()
+
         }
+
+        _binding.btnList.setOnClickListener(View.OnClickListener {
+
+
+            startActivity(Intent(context, AudioFilesActivity::class.java))
+        })
+
+        _binding.btnStop.setOnClickListener(View.OnClickListener { //cancel count down timer
+            countDownTimer!!.cancel()
+            _binding.btnRecord.isEnabled = true
+            _binding.btnList.isEnabled = true
+            _binding.btnStop.isEnabled = false
+
+            second = -1
+            minute = 0
+            hour = 0
+            _binding.tvDuration.text = "00:00:00"
+            if (myAudioRecorder != null) {
+                try {
+                    //stop myAudioRecorder
+                    myAudioRecorder!!.stop()
+                    myAudioRecorder!!.reset()
+                } catch (e: IllegalStateException) {
+                    e.printStackTrace()
+                }
+            }
+
+            //creating content resolver and put the values
+            val values = ContentValues()
+            values.put(MediaStore.Audio.Media.DATA, filePath)
+
+            values.put(MediaStore.Audio.Media.MIME_TYPE, "audio/3gpp")
+            values.put(MediaStore.Audio.Media.TITLE, audioFile)
+            //store audio recorder file in the external content uri
+            contentResolver.insert(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, values)
+        })
+
+        _binding.btnRecord.setOnClickListener(View.OnClickListener {
+            _binding.btnRecord.isEnabled = false
+            _binding.btnList.isEnabled = false
+            _binding.btnStop.isEnabled = true
+
+            try {
+                // Create folder to store recordingss
+
+                val dateFormat = SimpleDateFormat("ddmmyyyy")
+                val date = dateFormat.format(Date())
+                audioFile = "REC$date.mp3"
+                filePath = myDirectory.absolutePath + File.separator + audioFile
+                startAudioRecorder()
+            } catch (e: Exception) {
+                e.printStackTrace()
+                println("error ${e.message}")
+            }
+            showTimer()
+        })
 
 
         /*builder.setPositiveButton("Yes"){ dialogInterface, which ->
@@ -77,76 +141,19 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setAudioRecorder() {
-        _binding.btnStop.isEnabled = false
-        _binding.btnRecord.isEnabled = true
-        recording()
-        stopRecording()
-        getRecordings()
+
+        myAudioRecorder = MediaRecorder()
+        myAudioRecorder!!.setAudioSource(MediaRecorder.AudioSource.MIC)
+        myAudioRecorder!!.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP)
+        myAudioRecorder!!.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB)
+
+         myDirectory = File(Environment.getExternalStorageDirectory(), "recorder_app_hello")
+        if (!myDirectory.exists()) {
+            myDirectory.mkdirs()
+        }
     }
 
-    private fun getRecordings() {
-        _binding.btnList.setOnClickListener(View.OnClickListener {
 
-
-             startActivity(Intent(context, AudioFilesActivity::class.java))
-        })
-    }
-
-    private fun stopRecording() {
-        _binding.btnStop.setOnClickListener(View.OnClickListener { //cancel count down timer
-            countDownTimer!!.cancel()
-            _binding.btnRecord.isEnabled = true
-            _binding.btnList.isEnabled = true
-            _binding.btnStop.isEnabled = false
-
-            second = -1
-            minute = 0
-            hour = 0
-            _binding.tvDuration.text = "00:00:00"
-            if (myAudioRecorder != null) {
-                try {
-                    //stop myAudioRecorder
-                    myAudioRecorder!!.stop()
-                    myAudioRecorder!!.reset()
-                } catch (e: IllegalStateException) {
-                    e.printStackTrace()
-                }
-            }
-
-            //creating content resolver and put the values
-            val values = ContentValues()
-            values.put(MediaStore.Audio.Media.DATA, filePath)
-            values.put(MediaStore.Audio.Media.MIME_TYPE, "audio/3gpp")
-            values.put(MediaStore.Audio.Media.TITLE, audioFile)
-            //store audio recorder file in the external content uri
-            contentResolver.insert(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, values)
-        })
-    }
-
-    private fun recording() {
-        _binding.btnRecord.setOnClickListener(View.OnClickListener {
-            _binding.btnRecord.isEnabled = false
-            _binding.btnList.isEnabled = false
-            _binding.btnStop.isEnabled = true
-
-            try {
-                // Create folder to store recordingss
-                val myDirectory = File(Environment.getExternalStorageDirectory(), "recorder_app_hello")
-                if (!myDirectory.exists()) {
-                    myDirectory.mkdirs()
-                }
-                val dateFormat = SimpleDateFormat("mmddyyyyhhmmss")
-                val date = dateFormat.format(Date())
-                audioFile = "REC$date.mp3"
-                filePath = myDirectory.absolutePath + File.separator + audioFile
-                startAudioRecorder()
-            } catch (e: Exception) {
-                e.printStackTrace()
-                println("error ${e.message}")
-            }
-            showTimer()
-        })
-    }
 
     private fun showTimer() {
         countDownTimer = object : CountDownTimer(Long.MAX_VALUE, 1000) {
@@ -175,10 +182,6 @@ class MainActivity : AppCompatActivity() {
 
     private fun startAudioRecorder() {
         try {
-            myAudioRecorder = MediaRecorder()
-            myAudioRecorder!!.setAudioSource(MediaRecorder.AudioSource.MIC)
-            myAudioRecorder!!.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP)
-            myAudioRecorder!!.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB)
             myAudioRecorder!!.setOutputFile(filePath)
             myAudioRecorder!!.prepare()
             myAudioRecorder!!.start()
@@ -238,4 +241,6 @@ class MainActivity : AppCompatActivity() {
             myAudioRecorder!!.release()
         }
     }
+
+
 }
