@@ -1,6 +1,7 @@
 package com.sanket.audiorecorder
 
 import android.content.Context
+import android.content.Intent
 import android.media.MediaMetadataRetriever
 import android.net.Uri
 import android.os.Bundle
@@ -78,6 +79,9 @@ class AudioFilesActivity : AppCompatActivity(), AudioFileAdapter.OnItemClickList
     override fun onItemClick(item: AudioFileClass, v: View?) {
 
         Toast.makeText(context, item.getTitle(), Toast.LENGTH_SHORT).show()
+        startActivity(Intent(context, PlayActivity::class.java)
+            .putExtra("AudioFile", item)
+            .putParcelableArrayListExtra("Array", audioList))
 
     }
 
