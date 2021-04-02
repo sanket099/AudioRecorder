@@ -13,7 +13,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 
-class AudioFileAdapter(context: Context, audioArrayList: ArrayList<AudioFileClass>) : RecyclerView.Adapter<AudioFileAdapter.viewHolder>() {
+class AudioFileAdapter(context: Context, audioArrayList: ArrayList<AudioFileClass>, onItemClick : OnItemClickListener) : RecyclerView.Adapter<AudioFileAdapter.viewHolder>() {
     private var context: Context
     private var audioArrayList: ArrayList<AudioFileClass>
     var onItemClickListener: OnItemClickListener? = null
@@ -21,6 +21,7 @@ class AudioFileAdapter(context: Context, audioArrayList: ArrayList<AudioFileClas
     init {
         this.context = context
         this.audioArrayList = audioArrayList
+        this.onItemClickListener = onItemClick
     }
     override fun onCreateViewHolder(viewGroup: ViewGroup, i: Int): viewHolder {
         val view: View = LayoutInflater.from(context).inflate(R.layout.audio_files_list, viewGroup, false)
@@ -45,7 +46,7 @@ class AudioFileAdapter(context: Context, audioArrayList: ArrayList<AudioFileClas
         return audioArrayList.size
     }
 
-    inner class viewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class viewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
         var title: TextView
         var date: TextView
         var duration: TextView
@@ -56,14 +57,18 @@ class AudioFileAdapter(context: Context, audioArrayList: ArrayList<AudioFileClas
             date = itemView.findViewById(R.id.audio_date)
             duration = itemView.findViewById(R.id.audio_duration)
             storage = itemView.findViewById(R.id.audio_size)
-            itemView.setOnClickListener { v -> onItemClickListener!!.onItemClick(audioArrayList[adapterPosition], v) }
+            itemView.setOnClickListener(this)
+        }
+
+        override fun onClick(v: View?) {
+            onItemClickListener!!.onItemClick(audioArrayList[adapterPosition], v)
         }
     }
 
 
 
     fun setOnItemClick(onItemClickListener: OnItemClickListener?) {
-        this.onItemClickListener = onItemClickListener
+
     }
 
     interface OnItemClickListener {

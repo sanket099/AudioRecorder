@@ -60,7 +60,7 @@ class AudioFilesActivity : AppCompatActivity(), AudioFileAdapter.OnItemClickList
 
         }
 
-        adapter = AudioFileAdapter(context, audioList)
+        adapter = AudioFileAdapter(context, audioList, this)
         linearLayoutManager = LinearLayoutManager(this)
         _binding.rvAudioFiles.adapter = adapter
         _binding.rvAudioFiles.layoutManager = linearLayoutManager
@@ -79,6 +79,8 @@ class AudioFilesActivity : AppCompatActivity(), AudioFileAdapter.OnItemClickList
     override fun onItemClick(item: AudioFileClass, v: View?) {
 
         Toast.makeText(context, item.getTitle(), Toast.LENGTH_SHORT).show()
+        println(item.getTitle())
+        println(audioList)
         startActivity(Intent(context, PlayActivity::class.java)
             .putExtra("AudioFile", item)
             .putParcelableArrayListExtra("Array", audioList))
