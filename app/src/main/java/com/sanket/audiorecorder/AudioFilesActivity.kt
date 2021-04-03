@@ -83,6 +83,7 @@ class AudioFilesActivity : AppCompatActivity(), AudioFileAdapter.OnItemClickList
         println(audioList)
         startActivity(Intent(context, PlayActivity::class.java)
             .putExtra("AudioFile", item)
+                .putExtra("Position", audioList.indexOf(item))
             .putParcelableArrayListExtra("Array", audioList))
 
     }

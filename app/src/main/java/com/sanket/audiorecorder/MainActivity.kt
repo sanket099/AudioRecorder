@@ -45,15 +45,15 @@ class MainActivity : AppCompatActivity() {
         context = this@MainActivity
 
         if (checkPermssion()) {
-            _binding.btnRecord.isEnabled = true;
-            _binding.btnList.isEnabled = true;
-            _binding.btnStop.isEnabled = true;
+            _binding.btnRecord.isEnabled = true
+            _binding.btnList.isEnabled = true
+            _binding.btnStop.isEnabled = true
             setAudioRecorder()
 
         } else {
-            _binding.btnRecord.isEnabled = false;
-            _binding.btnList.isEnabled = false;
-            _binding.btnStop.isEnabled = false;
+            _binding.btnRecord.isEnabled = false
+            _binding.btnList.isEnabled = false
+            _binding.btnStop.isEnabled = false
 
             requestPermission()
 
@@ -87,6 +87,7 @@ class MainActivity : AppCompatActivity() {
 
             //creating content resolver and put the values
             val values = ContentValues()
+           // values.put(MediaStore.Audio.Media._ID, 12)
             values.put(MediaStore.Audio.Media.DATA, filePath)
 
             values.put(MediaStore.Audio.Media.MIME_TYPE, "audio/3gpp")
@@ -201,9 +202,15 @@ class MainActivity : AppCompatActivity() {
                 this,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE
         )
+        val permissionRead = ContextCompat.checkSelfPermission(
+                this,
+                Manifest.permission.READ_EXTERNAL_STORAGE
+        )
 
 
-        if (permission != PackageManager.PERMISSION_GRANTED || permissionStorage != PackageManager.PERMISSION_GRANTED) {
+        if (permission != PackageManager.PERMISSION_GRANTED
+                || permissionStorage != PackageManager.PERMISSION_GRANTED
+                || permissionRead != PackageManager.PERMISSION_GRANTED) {
             return false
         }
         return true
@@ -212,7 +219,9 @@ class MainActivity : AppCompatActivity() {
     private fun requestPermission() {
         ActivityCompat.requestPermissions(
                 this,
-                arrayOf(Manifest.permission.RECORD_AUDIO, Manifest.permission.WRITE_EXTERNAL_STORAGE),
+                arrayOf(Manifest.permission.RECORD_AUDIO,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                        Manifest.permission.READ_EXTERNAL_STORAGE),
                 RECORD_REQUEST_CODE
         )
     }
@@ -224,11 +233,16 @@ class MainActivity : AppCompatActivity() {
         when (requestCode) {
             RECORD_REQUEST_CODE -> {
 
-                if (grantResults.isEmpty() || grantResults[0] != PackageManager.PERMISSION_GRANTED
-                        || grantResults[1] != PackageManager.PERMISSION_GRANTED) {
+                if (grantResults.isEmpty()
+                        || grantResults[0] != PackageManager.PERMISSION_GRANTED
+                        || grantResults[1] != PackageManager.PERMISSION_GRANTED
+                        || grantResults[2] != PackageManager.PERMISSION_GRANTED) {
 
                     requestPermission()
                 } else {
+                    _binding.btnRecord.isEnabled = true
+                    _binding.btnList.isEnabled = true
+                    _binding.btnStop.isEnabled = true
                     setAudioRecorder()
 
                 }
