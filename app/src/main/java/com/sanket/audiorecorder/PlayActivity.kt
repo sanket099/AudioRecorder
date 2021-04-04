@@ -1,23 +1,17 @@
 package com.sanket.audiorecorder
 
-
-
-import android.Manifest
-import android.content.pm.PackageManager
 import android.media.MediaPlayer
-import android.media.MediaPlayer.OnCompletionListener
+import android.media.audiofx.BassBoost
+import android.media.effect.Effect
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
-
 import android.view.View
 import android.widget.SeekBar
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import com.sanket.audiorecorder.databinding.ActivityPlayBinding
-
+import java.io.IOException
 
 
 class PlayActivity : AppCompatActivity() {
@@ -25,13 +19,13 @@ class PlayActivity : AppCompatActivity() {
     private var audioFile : AudioFileClass? = null
     private lateinit var audioArray : ArrayList<AudioFileClass>
 
-
    /* private lateinit var runnable:Runnable
     private var handler: Handler = Handler()*/
     private var pause:Boolean = false
-    private var filePath : Uri? = null
+    private var filePath : String? = null
     private var mp : MediaPlayer? = null
     private var position : Int = 0
+    private var bass : Boolean = false
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -109,7 +103,7 @@ class PlayActivity : AppCompatActivity() {
             filePath = audioFile?.getUri()!!
             _binding.tvDur.text = audioFile?.getDuration()
 
-            this.position = intent.getIntExtra("Position",0)
+            this.position = intent.getIntExtra("Position", 0)
             println("Pos get $position")
 
         }
@@ -216,7 +210,9 @@ class PlayActivity : AppCompatActivity() {
                     // player = new MediaPlayer();
 
 
-                    mp = MediaPlayer.create(this, filePath)
+                    mp = MediaPlayer()
+                    mp?.setDataSource(filePath)
+                    mp?.prepare()
                     //System.out.println("uri[0].toString() = " + uri[0].toString());
 
                     //  setUri(this,id);
@@ -229,9 +225,25 @@ class PlayActivity : AppCompatActivity() {
                        nextSong()
                    }
                 }
+               // mp?.prepare()
+           /* if(!bass){
+                setUpBooster()
+
+            }*/
+
                 mp?.start()
+
+
                 pause = false
                 showPlay(false)
+
+
+
+
+
+           /* val suppressor = NoiseSuppressor.create(
+                    mp!!.audioSessionId)
+            suppressor.enabled = true*/
 
 
         } catch (e: Exception) {
@@ -299,7 +311,7 @@ class PlayActivity : AppCompatActivity() {
         stopPlayer()
     }
 
-    private fun recorderTime(time : Int): String {
+    private fun recorderTime(time: Int): String {
         var second : Int = time
         var minute : Int = 0
         if (second == 60) {
@@ -341,7 +353,7 @@ class PlayActivity : AppCompatActivity() {
     }
 */
 
-    private fun setTextViews(date : String, name : String, duration : String){
+    private fun setTextViews(date: String, name: String, duration: String){
         _binding.tvDate.text = date
         _binding.tvTitle.text = name
 
@@ -359,7 +371,32 @@ class PlayActivity : AppCompatActivity() {
         playMahSong()
     }
 
+    override fun onStop() {
+        super.onStop()
+        stopPlayer()
+    }
 
+    private fun setUpBooster() {
+
+        val booster = BassBoost(0, mp!!.audioSessionId)
+        booster.setStrength(1000.toShort())
+        booster.enabled = true
+        mp?.attachAuxEffect(booster.id)
+        mp?.setAuxEffectSendLevel(1.0f)
+
+        try {
+            mp?.prepare()
+            bass = true
+        } catch (e: IllegalStateException) {
+            e.printStackTrace()
+            println("bass error : ${e.message}")
+            bass = false
+        } catch (e: IOException) {
+            e.printStackTrace()
+            println("bass error : ${e.message}")
+            bass = false
+        }
+    }
 
 
 }

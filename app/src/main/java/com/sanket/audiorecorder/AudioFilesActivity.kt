@@ -36,6 +36,7 @@ class AudioFilesActivity : AppCompatActivity(), AudioFileAdapter.OnItemClickList
 
         // mydir = this.getDir("mydir", Context.MODE_PRIVATE);
         mediaStorage = File(Environment.getExternalStorageDirectory(), "recorder_app_hello")
+        //println("Path ${mediaStorage.path}")
 
         getSomeMusic()
 
@@ -51,7 +52,7 @@ class AudioFilesActivity : AppCompatActivity(), AudioFileAdapter.OnItemClickList
                     val audio = AudioFileClass(file.name,
                             getDuration(file),
                             getNiceDate(file),
-                            Uri.parse(file.path),
+                            file.path,
                             getStorage(file.length().toString()))
                     audioList.add(audio)
 
@@ -104,11 +105,11 @@ class AudioFilesActivity : AppCompatActivity(), AudioFileAdapter.OnItemClickList
     }
     private fun getNiceDate(file : File):String{
         //val lastModDate = Date(file.lastModified())
-        val formatter = SimpleDateFormat("dd/MM/yyyy , hh:mm")
+        val formatter = SimpleDateFormat("dd/MM/yyyy , HH:mm", Locale.UK)
         return formatter.format(file.lastModified())
     }
 
-    private fun formateMilliSeccond(milliseconds: Long): String? {
+    private fun formateMilliSeccond(milliseconds: Long): String {
         var finalTimerString = ""
         var secondsString = ""
 

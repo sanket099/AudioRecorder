@@ -10,18 +10,18 @@ class AudioFileClass() : Parcelable {
     private var title: String? = null
     private var duration: String? = null
     private var date: String? = null
-    private var uri: Uri? = null
+    private var uri: String? = null
     private var storage : String? = null
 
     constructor(parcel: Parcel) : this() {
         title = parcel.readString()
         duration = parcel.readString()
         date = parcel.readString()
-        uri = parcel.readParcelable(Uri::class.java.classLoader)
+        uri = parcel.readString()
         storage = parcel.readString()
     }
 
-    constructor(title: String?, duration: String?, date: String?, uri: Uri?, storage: String?) : this() {
+    constructor(title: String?, duration: String?, date: String?, uri: String?, storage: String?) : this() {
         this.title = title
         this.duration = duration
         this.date = date
@@ -40,11 +40,11 @@ class AudioFileClass() : Parcelable {
         return date
     }
 
-    fun getUri(): Uri? {
+    fun getUri(): String? {
         return uri
     }
 
-    fun setUri(uri: Uri?) {
+    fun setUri(uri: String?) {
         this.uri = uri
     }
     fun getStorage(): String? {
@@ -59,7 +59,7 @@ class AudioFileClass() : Parcelable {
         parcel.writeString(title)
         parcel.writeString(duration)
         parcel.writeString(date)
-        parcel.writeParcelable(uri, flags)
+        parcel.writeString(uri)
         parcel.writeString(storage)
     }
 

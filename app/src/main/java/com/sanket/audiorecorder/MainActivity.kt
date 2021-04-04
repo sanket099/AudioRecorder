@@ -20,7 +20,6 @@ import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
-
 class MainActivity : AppCompatActivity() {
 
     private var myAudioRecorder: MediaRecorder? = null
@@ -87,7 +86,7 @@ class MainActivity : AppCompatActivity() {
 
             //creating content resolver and put the values
             val values = ContentValues()
-           // values.put(MediaStore.Audio.Media._ID, 12)
+            // values.put(MediaStore.Audio.Media._ID, 12)
             values.put(MediaStore.Audio.Media.DATA, filePath)
 
             values.put(MediaStore.Audio.Media.MIME_TYPE, "audio/3gpp")
@@ -104,7 +103,7 @@ class MainActivity : AppCompatActivity() {
             try {
                 // Create folder to store recordingss
 
-                val dateFormat = SimpleDateFormat("ddmmyyyy")
+                val dateFormat = SimpleDateFormat("dd_mm_yyyy")
                 val date = dateFormat.format(Date())
                 audioFile = "REC$date.mp3"
                 filePath = myDirectory.absolutePath + File.separator + audioFile
@@ -124,10 +123,7 @@ class MainActivity : AppCompatActivity() {
             myAudioRecorder = null;
             isRecording = false
             _binding.btnRecord.setImageResource(R.drawable.mic_24dp)
-
         }
-
-
         //performing negative action
         builder.setNegativeButton("No"){ dialogInterface, which ->
             Toast.makeText(applicationContext, "clicked No", Toast.LENGTH_LONG).show()
@@ -148,7 +144,7 @@ class MainActivity : AppCompatActivity() {
         myAudioRecorder!!.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP)
         myAudioRecorder!!.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB)
 
-         myDirectory = File(Environment.getExternalStorageDirectory(), "recorder_app_hello")
+        myDirectory = File(Environment.getExternalStorageDirectory(), "recorder_app_hello")
         if (!myDirectory.exists()) {
             myDirectory.mkdirs()
         }
@@ -161,7 +157,7 @@ class MainActivity : AppCompatActivity() {
             override fun onTick(millisUntilFinished: Long) {
                 second++
                 _binding.tvDuration.text = recorderTime()
-               // recorderTime()
+                // recorderTime()
             }
 
             override fun onFinish() {}
@@ -182,6 +178,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun startAudioRecorder() {
+        setAudioRecorder()
         try {
             myAudioRecorder!!.setOutputFile(filePath)
             myAudioRecorder!!.prepare()
