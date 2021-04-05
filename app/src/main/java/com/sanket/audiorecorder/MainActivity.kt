@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.media.MediaRecorder
+import android.media.audiofx.PresetReverb
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.os.Environment
@@ -16,9 +17,9 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.sanket.audiorecorder.databinding.ActivityMainBinding
 import java.io.File
-import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -143,6 +144,9 @@ class MainActivity : AppCompatActivity() {
         myAudioRecorder!!.setAudioSource(MediaRecorder.AudioSource.MIC)
         myAudioRecorder!!.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP)
         myAudioRecorder!!.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB)
+//        myAudioRecorder!!.setAudioEncoder(MediaRecorder.getAudioSourceMax());
+        myAudioRecorder!!.setAudioEncodingBitRate(16)
+        myAudioRecorder!!.setAudioSamplingRate(44100)
 
 
         myDirectory = File(Environment.getExternalStorageDirectory(), "recorder_app_hello")

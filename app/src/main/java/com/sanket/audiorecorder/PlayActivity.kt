@@ -3,6 +3,7 @@ package com.sanket.audiorecorder
 import android.media.MediaPlayer
 import android.media.audiofx.BassBoost
 import android.media.audiofx.NoiseSuppressor
+import android.media.audiofx.PresetReverb
 import android.os.Bundle
 import android.os.Handler
 import android.view.View
@@ -199,17 +200,32 @@ class PlayActivity : AppCompatActivity() {
                     // player = new MediaPlayer();
                     mp = MediaPlayer()
                     mp?.setDataSource(filePath)
+
+                    reverb()
+                    //setUpBooster()
+
+                    /*val suppressor = NoiseSuppressor.create(
+                            mp!!.audioSessionId)
+                    suppressor.enabled = true
+*/
+
+
                     mp?.prepare()
 
-                    mp!!.setOnCompletionListener {
-                        println("completed")
-                        nextSong()
-                    }
 
                 }
                 //mp?.prepare()
+            mp!!.setOnPreparedListener {
 
                 mp?.start()
+            }
+
+            mp!!.setOnCompletionListener {
+                println("completed")
+                nextSong()
+            }
+
+
 
                 pause = false
                 showPlay(false)
@@ -343,17 +359,17 @@ class PlayActivity : AppCompatActivity() {
         stopPlayer()
     }
 
-    /*private fun setUpBooster() {
+    private fun setUpBooster() {
 
-        val booster = BassBoost(0, mp!!.audioSessionId)
+        val booster = BassBoost(0, 0)
+        mp?.attachAuxEffect(booster.id)
         booster.setStrength(1000.toShort())
         booster.enabled = true
-        mp?.attachAuxEffect(booster.id)
+
         mp?.setAuxEffectSendLevel(1.0f)
 
-        try {
+       /* try {
             //mp?.prepare()
-                mp?.prepareAsync()
             bass = true
         } catch (e: IllegalStateException) {
             e.printStackTrace()
@@ -362,9 +378,24 @@ class PlayActivity : AppCompatActivity() {
         } catch (e: IOException) {
             e.printStackTrace()
             println("bass error : ${e.message}")
-            bass = false
+            bass = false*/
         }
-    }*/
+
+
+    private fun reverb(){
+        /*val reverb = PresetReverb(1, 0)
+        reverb.preset = PresetReverb.PRESET_LARGEHALL
+        reverb.enabled = true
+        mp!!.attachAuxEffect(reverb.id)
+        mp!!.setAuxEffectSendLevel(1.0f)*/
+
+
+        val pReverb = PresetReverb(1, 0)
+        mp!!.attachAuxEffect(pReverb.id)
+        pReverb.preset = PresetReverb.PRESET_LARGEROOM
+        pReverb.enabled = true
+        mp!!.setAuxEffectSendLevel(1.0f)
+    }
 
 
 }
