@@ -2,8 +2,7 @@ package com.sanket.audiorecorder
 
 import android.media.MediaPlayer
 import android.media.audiofx.BassBoost
-import android.media.effect.Effect
-import android.net.Uri
+import android.media.audiofx.NoiseSuppressor
 import android.os.Bundle
 import android.os.Handler
 import android.view.View
@@ -44,6 +43,7 @@ class PlayActivity : AppCompatActivity() {
 
         _binding.ivNext.setOnClickListener(View.OnClickListener {
             nextSong()
+            println("Next SOng")
 
         })
 
@@ -100,7 +100,7 @@ class PlayActivity : AppCompatActivity() {
         if(audioFile != null){
             _binding.tvDate.text = audioFile?.getDate()
             _binding.tvTitle.text = audioFile?.getTitle()
-            filePath = audioFile?.getUri()!!
+             filePath = audioFile?.getUri()!!
             _binding.tvDur.text = audioFile?.getDuration()
 
             this.position = intent.getIntExtra("Position", 0)
@@ -194,61 +194,28 @@ class PlayActivity : AppCompatActivity() {
 
     private fun playMahSong() {
         try {
-            /* File videoFile = new File(path);
-            final Uri[] uri = {Uri.fromFile(videoFile)};
-            MediaScannerConnection.scanFile(this,
-                    new String[] { videoFile.getAbsolutePath() }, null,
-                    new MediaScannerConnection.OnScanCompletedListener() {
-                        public void onScanCompleted(String path, Uri uri2) {
-                            uri[0] = uri2;
-                        }
-                    });*/
-            //  Uri uri = Uri.parse("file:///" + path);
-            //  System.out.println(uri.toString());
 
                 if (mp == null) {
                     // player = new MediaPlayer();
-
-
                     mp = MediaPlayer()
                     mp?.setDataSource(filePath)
                     mp?.prepare()
-                    //System.out.println("uri[0].toString() = " + uri[0].toString());
 
-                    //  setUri(this,id);
-                   mp?.setOnCompletionListener {
-                       /*if (repeatOn) {
-                            playThisSong()
-                        } else if (shuffleOn) {
-                            playAnySongShuffle()
-                        } else nextSong()*/
-                       nextSong()
-                   }
+                    mp!!.setOnCompletionListener {
+                        println("completed")
+                        nextSong()
+                    }
+
                 }
-               // mp?.prepare()
-           /* if(!bass){
-                setUpBooster()
-
-            }*/
+                //mp?.prepare()
 
                 mp?.start()
-
 
                 pause = false
                 showPlay(false)
 
-
-
-
-
-           /* val suppressor = NoiseSuppressor.create(
-                    mp!!.audioSessionId)
-            suppressor.enabled = true*/
-
-
         } catch (e: Exception) {
 
-            // Toast.makeText(this, "Not Found" + path, Toast.LENGTH_LONG).show();
             Toast.makeText(this, e.message, Toast.LENGTH_SHORT).show()
             println("e.getMessage() = " + e.message)
         }
@@ -376,7 +343,7 @@ class PlayActivity : AppCompatActivity() {
         stopPlayer()
     }
 
-    private fun setUpBooster() {
+    /*private fun setUpBooster() {
 
         val booster = BassBoost(0, mp!!.audioSessionId)
         booster.setStrength(1000.toShort())
@@ -385,7 +352,8 @@ class PlayActivity : AppCompatActivity() {
         mp?.setAuxEffectSendLevel(1.0f)
 
         try {
-            mp?.prepare()
+            //mp?.prepare()
+                mp?.prepareAsync()
             bass = true
         } catch (e: IllegalStateException) {
             e.printStackTrace()
@@ -396,7 +364,7 @@ class PlayActivity : AppCompatActivity() {
             println("bass error : ${e.message}")
             bass = false
         }
-    }
+    }*/
 
 
 }

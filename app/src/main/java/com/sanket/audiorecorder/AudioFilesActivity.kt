@@ -79,9 +79,9 @@ class AudioFilesActivity : AppCompatActivity(), AudioFileAdapter.OnItemClickList
 
     override fun onItemClick(item: AudioFileClass, v: View?) {
 
-        Toast.makeText(context, item.getTitle(), Toast.LENGTH_SHORT).show()
-        println(item.getTitle())
-        println(audioList)
+        //Toast.makeText(context, item.getTitle(), Toast.LENGTH_SHORT).show()
+       /* println("item name ${ item.getTitle() }")
+        println("Click Name $audioList")*/
         startActivity(Intent(context, PlayActivity::class.java)
             .putExtra("AudioFile", item)
                 .putExtra("Position", audioList.indexOf(item))

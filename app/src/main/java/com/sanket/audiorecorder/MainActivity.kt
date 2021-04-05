@@ -144,6 +144,7 @@ class MainActivity : AppCompatActivity() {
         myAudioRecorder!!.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP)
         myAudioRecorder!!.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB)
 
+
         myDirectory = File(Environment.getExternalStorageDirectory(), "recorder_app_hello")
         if (!myDirectory.exists()) {
             myDirectory.mkdirs()
