@@ -1,22 +1,37 @@
 package com.sanket.audiorecorder
 
+import android.content.ContentValues
+import android.content.Intent
+import android.content.SharedPreferences
 import android.media.MediaPlayer
 import android.media.audiofx.BassBoost
 import android.media.audiofx.NoiseSuppressor
 import android.media.audiofx.PresetReverb
 import android.os.Bundle
+import android.os.Environment
 import android.os.Handler
+import android.provider.MediaStore
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.widget.SeekBar
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.sanket.audiorecorder.databinding.ActivityPlayBinding
+import java.io.File
 import java.io.IOException
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 class PlayActivity : AppCompatActivity() {
     private lateinit var _binding : ActivityPlayBinding
     private var audioFile : AudioFileClass? = null
+    private var PRIVATE_MODE = 0
+    private val PREF_NAME = "myPref"
+    private val REVERB = "REVERB"
+
     private lateinit var audioArray : ArrayList<AudioFileClass>
 
    /* private lateinit var runnable:Runnable
@@ -209,9 +224,7 @@ class PlayActivity : AppCompatActivity() {
                     suppressor.enabled = true
 */
 
-
                     mp?.prepare()
-
 
                 }
                 //mp?.prepare()
@@ -388,14 +401,67 @@ class PlayActivity : AppCompatActivity() {
         reverb.enabled = true
         mp!!.attachAuxEffect(reverb.id)
         mp!!.setAuxEffectSendLevel(1.0f)*/
-
-
+        val sharedPref: SharedPreferences = getSharedPreferences(PREF_NAME, PRIVATE_MODE)
         val pReverb = PresetReverb(1, 0)
         mp!!.attachAuxEffect(pReverb.id)
-        pReverb.preset = PresetReverb.PRESET_LARGEROOM
+        if (sharedPref.getInt(REVERB, 0) != 0) {
+            pReverb.preset = sharedPref.getInt(REVERB, 0).toShort()
+        }
+        else {
+            pReverb.preset = PresetReverb.PRESET_SMALLROOM
+        }
+
         pReverb.enabled = true
         mp!!.setAuxEffectSendLevel(1.0f)
     }
+
+    private fun saveAudioAfterEffects(){
+        //creating content resolver and put the values
+        val myDirectory = File(Environment.getExternalStorageDirectory(), "recorder_app_hello")
+        var title : String = ""
+
+        try {
+            // Create folder to store recordingss
+
+            val dateFormat = SimpleDateFormat("dd_mm_yyyy")
+            val date = dateFormat.format(Date())
+            title = "REC_withReverb$date.mp3"
+            filePath = myDirectory.absolutePath + File.separator + title
+
+        } catch (e: Exception) {
+            e.printStackTrace()
+            println("error ${e.message}")
+        }
+
+        val values = ContentValues()
+        // values.put(MediaStore.Audio.Media._ID, 12)
+        values.put(MediaStore.Audio.Media.DATA, filePath)
+
+        values.put(MediaStore.Audio.Media.MIME_TYPE, "audio/3gpp")
+        values.put(MediaStore.Audio.Media.TITLE, title)
+        //store audio recorder file in the external content uri
+        contentResolver.insert(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, values)
+
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_play, menu)
+        return true
+        //return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.action_settings -> {
+                startActivity(Intent(this, SettingsActivity::class.java))
+                true
+            }
+
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+
 
 
 }
