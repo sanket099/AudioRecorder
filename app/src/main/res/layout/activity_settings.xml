@@ -7,131 +7,45 @@
     android:background="@color/black"
     tools:context=".SettingsActivity">
 
+
     <TextView
         android:id="@+id/tv_custom_reverb"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="27dp"
         android:layout_marginTop="16dp"
         android:fontFamily="@font/open_sans_semibold"
         android:text="Reverb"
         android:textColor="#FFFFFF"
         android:textSize="20sp"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/tv_presets"
         app:layout_constraintTop_toTopOf="parent" />
-
 
     <TextView
         android:id="@+id/tv_presets"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="56dp"
+        android:layout_marginEnd="55dp"
         android:fontFamily="@font/open_sans_semibold"
         android:text="Presets"
         android:textColor="#FFFFFF"
         android:textSize="16sp"
-        app:layout_constraintBottom_toTopOf="@+id/radio_group"
-        app:layout_constraintStart_toStartOf="@+id/tv_custom_reverb" />
+        app:layout_constraintEnd_toStartOf="@+id/spinner1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <RadioGroup
-        android:id="@+id/radio_group"
+    <Spinner
+        android:id="@+id/spinner1"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="90dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="56dp"
+        android:padding="10dp"
+        android:layout_marginEnd="20dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/black">
-
-            <RadioButton
-                android:id="@+id/rvb_sr_1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="41dp"
-                android:layout_marginTop="16dp"
-                android:checked="true"
-                android:fontFamily="@font/open_sans_semibold"
-                android:text="Small Room"
-                android:textColor="#FFFFFF"
-                android:textColorLink="#FFFFFF"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <RadioButton
-                android:id="@+id/rvb_sp_6"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-
-                android:layout_marginEnd="52dp"
-
-                android:checked="false"
-                android:fontFamily="@font/open_sans_semibold"
-                android:text="Steel Plate"
-                android:textColor="#FFFFFF"
-                android:textColorLink="#FFFFFF"
-                app:layout_constraintBottom_toBottomOf="@+id/rvb_lr_3"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/rvb_lr_3" />
-
-            <RadioButton
-                android:id="@+id/rvb_lh_5"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:checked="false"
-                android:fontFamily="@font/open_sans_semibold"
-                android:text="Large Hall"
-                android:textColor="#FFFFFF"
-                android:textColorLink="#FFFFFF"
-                app:layout_constraintBottom_toTopOf="@+id/rvb_sp_6"
-                app:layout_constraintStart_toStartOf="@+id/rvb_sp_6" />
-
-            <RadioButton
-                android:id="@+id/rvb_mr_2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="9dp"
-                android:checked="false"
-                android:fontFamily="@font/open_sans_semibold"
-                android:text="Medium Room"
-                android:textColor="#FFFFFF"
-                android:textColorLink="#FFFFFF"
-                app:layout_constraintStart_toStartOf="@+id/rvb_sr_1"
-                app:layout_constraintTop_toBottomOf="@+id/rvb_sr_1" />
-
-            <RadioButton
-                android:id="@+id/rvb_mh_4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:checked="false"
-                android:fontFamily="@font/open_sans_semibold"
-                android:text="Medium Hall"
-                android:textColor="#FFFFFF"
-                android:textColorLink="#FFFFFF"
-                app:layout_constraintStart_toStartOf="@+id/rvb_lh_5"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <RadioButton
-                android:id="@+id/rvb_lr_3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:checked="false"
-                android:fontFamily="@font/open_sans_semibold"
-                android:text="Large Room"
-                android:textColor="#FFFFFF"
-                android:textColorLink="#FFFFFF"
-                app:layout_constraintStart_toStartOf="@+id/rvb_mr_2"
-                app:layout_constraintTop_toBottomOf="@+id/rvb_mr_2" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-    </RadioGroup>
+        app:layout_constraintStart_toEndOf="@+id/tv_presets"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

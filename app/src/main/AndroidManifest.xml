@@ -15,7 +15,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AudioRecorder">
-        <activity android:name=".SettingsActivity"></activity>
+        <activity android:name=".SettingsActivity"
+            android:parentActivityName=".AudioFilesActivity"></activity>
         <activity android:name=".PlayActivity" />
         <activity android:name=".AudioFilesActivity" />
         <activity android:name=".MainActivity">

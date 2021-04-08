@@ -1,11 +1,19 @@
 package com.sanket.audiorecorder
 
+
 import android.content.SharedPreferences
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.RadioButton
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.get
 import com.sanket.audiorecorder.databinding.ActivitySettingsBinding
 
-class SettingsActivity : AppCompatActivity() {
+
+class SettingsActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
     private lateinit var _binding : ActivitySettingsBinding
 
     private var PRIVATE_MODE = 0
@@ -16,39 +24,42 @@ class SettingsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         _binding = ActivitySettingsBinding.inflate(layoutInflater)
         setContentView(_binding.root)
-
-
-
         title = "Settings"
 
-        _binding.radioGroup.setOnCheckedChangeListener { group, checkedId ->
-            when (checkedId) {
-                R.id.rvb_sr_1 -> {
-                    setPref(1)
-                }
-                R.id.rvb_mr_2 -> {
-                    setPref(2)
-                }
-                R.id.rvb_lr_3 -> {
-                    setPref(3)
-                }
-                R.id.rvb_mh_4 -> {
-                    setPref(4)
-                }
-                R.id.rvb_lh_5 -> {
-                    setPref(5)
-                }
-                R.id.rvb_sp_6 -> {
-                    setPref(6)
-                }
-            }
 
-        }
+
+        //ids
+        val adapter = ArrayAdapter.createFromResource(this,
+                R.array.numbers, R.layout.support_simple_spinner_dropdown_item)
+        adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item)
+        _binding.spinner1.adapter = adapter
+        _binding.spinner1.onItemSelectedListener = this
+
+        _binding.spinner1.setSelection(getPrefs())
+
     }
-    private fun setPref(value : Int){
+
+    private fun setPref(value: Int){
         val sharedPref: SharedPreferences = getSharedPreferences(PREF_NAME, PRIVATE_MODE)
         val editor = sharedPref.edit()
         editor.putInt(REVERB, value)
         editor.apply()
+    }
+    private fun getPrefs() : Int{
+        val sharedPref: SharedPreferences = getSharedPreferences(PREF_NAME, PRIVATE_MODE)
+        return sharedPref.getInt(REVERB, 0)
+    }
+
+    override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+        val text = parent!!.getItemAtPosition(position).toString()
+        println("POSITION $position $text")
+        setPref(position)
+//        Toast.makeText(this, position, Toast.LENGTH_SHORT).show()
+    }
+
+    override fun onNothingSelected(parent: AdapterView<*>?) {
+
+
+
     }
 }
