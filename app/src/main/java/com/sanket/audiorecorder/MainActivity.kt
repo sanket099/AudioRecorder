@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.media.MediaRecorder
+import android.media.audiofx.NoiseSuppressor
 import android.media.audiofx.PresetReverb
 import android.os.Bundle
 import android.os.CountDownTimer
@@ -141,12 +142,15 @@ class MainActivity : AppCompatActivity() {
     private fun setAudioRecorder() {
 
         myAudioRecorder = MediaRecorder()
-        myAudioRecorder!!.setAudioSource(MediaRecorder.AudioSource.MIC)
+        myAudioRecorder!!.setAudioSource(MediaRecorder.AudioSource.VOICE_RECOGNITION)
         myAudioRecorder!!.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP)
         myAudioRecorder!!.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB)
+
 //        myAudioRecorder!!.setAudioEncoder(MediaRecorder.getAudioSourceMax());
-        myAudioRecorder!!.setAudioEncodingBitRate(16)
-        myAudioRecorder!!.setAudioSamplingRate(44100)
+        myAudioRecorder!!.setAudioEncodingBitRate(640000)
+        myAudioRecorder!!.setAudioSamplingRate(192000)
+
+
 
 
         myDirectory = File(Environment.getExternalStorageDirectory(), "recorder_app_hello")

@@ -1,25 +1,21 @@
 package com.sanket.audiorecorder
 
 import android.content.ContentValues
-import android.content.Intent
 import android.content.SharedPreferences
 import android.media.MediaPlayer
-import android.media.audiofx.BassBoost
-import android.media.audiofx.NoiseSuppressor
+import android.media.audiofx.Equalizer
+import android.media.audiofx.LoudnessEnhancer
 import android.media.audiofx.PresetReverb
 import android.os.Bundle
 import android.os.Environment
 import android.os.Handler
 import android.provider.MediaStore
-import android.view.Menu
-import android.view.MenuItem
 import android.view.View
 import android.widget.SeekBar
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.sanket.audiorecorder.databinding.ActivityPlayBinding
 import java.io.File
-import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
@@ -42,6 +38,9 @@ class PlayActivity : AppCompatActivity() {
     private var position : Int = 0
     private var bass : Boolean = false
 
+  /*  private lateinit var audioManager : AudioManager
+    private var  audioSessionId : Int = 0*/
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,6 +50,9 @@ class PlayActivity : AppCompatActivity() {
         audioArray = ArrayList<AudioFileClass>()
         getObject()
         showPlay(false)
+
+   /*      audioManager = applicationContext.getSystemService(Context.AUDIO_SERVICE) as AudioManager
+         audioSessionId = audioManager.generateAudioSessionId()*/
 
         playMahSong()
         seekBarInit()
@@ -214,27 +216,31 @@ class PlayActivity : AppCompatActivity() {
                 if (mp == null) {
                     // player = new MediaPlayer();
                     mp = MediaPlayer()
+
                     mp?.setDataSource(filePath)
 
-                    reverb()
-                    //setUpBooster()
 
-                    /*val suppressor = NoiseSuppressor.create(
-                            mp!!.audioSessionId)
-                    suppressor.enabled = true
-*/
+                    reverb()
+                    setUpBooster()
+
+
 
                     mp?.prepare()
 
                 }
+
+
+
                 //mp?.prepare()
             mp!!.setOnPreparedListener {
 
                 mp?.start()
+
             }
 
             mp!!.setOnCompletionListener {
                 println("completed")
+
                 nextSong()
             }
 
@@ -372,26 +378,50 @@ class PlayActivity : AppCompatActivity() {
         stopPlayer()
     }
 
-    private fun setUpBooster() {
+     private fun setUpBooster() {
 
-        val booster = BassBoost(0, 0)
-        mp?.attachAuxEffect(booster.id)
-        booster.setStrength(1000.toShort())
-        booster.enabled = true
+         val equalizer = Equalizer(2, mp!!.audioSessionId)
 
-        mp?.setAuxEffectSendLevel(1.0f)
+         equalizer.enabled = true
 
-       /* try {
-            //mp?.prepare()
-            bass = true
-        } catch (e: IllegalStateException) {
-            e.printStackTrace()
-            println("bass error : ${e.message}")
-            bass = false
-        } catch (e: IOException) {
-            e.printStackTrace()
-            println("bass error : ${e.message}")
-            bass = false*/
+         println("Eq ${equalizer.numberOfBands}") //it tells you the number of equalizer in device.
+
+
+         println("presets ${ equalizer.numberOfPresets }") //like Normal Classic,Dance Flat,Folk Heavy Metal,Hip Hop,Jazz, Pop, Rock
+
+         try {
+             val enhancer = LoudnessEnhancer(mp!!.audioSessionId)
+             enhancer.enabled = true
+             enhancer.setTargetGain(2000)
+             //mp!!.attachAuxEffect(enhancer.id)
+         } catch (x: Throwable) {
+            println("Failed to create enhancer $x")
+         }
+
+
+         /* val booster = BassBoost(0, audioSessionId)
+
+
+          mp?.setAuxEffectSendLevel(1.0f)
+
+          booster.setStrength(1000.toShort())
+
+          booster.enabled = true
+          mp?.attachAuxEffect(booster.id)
+
+
+
+          try {
+              //mp?.prepare()
+              bass = true
+          } catch (e: IllegalStateException) {
+              e.printStackTrace()
+              println("bass error : ${e.message}")
+              bass = false
+          } catch (e: IOException) {
+              e.printStackTrace()
+              println("bass error : ${e.message}")
+              bass = false*/
         }
 
 
@@ -408,7 +438,7 @@ class PlayActivity : AppCompatActivity() {
             pReverb.preset = sharedPref.getInt(REVERB, 0).toShort()
         }
         else {
-            pReverb.preset = PresetReverb.PRESET_SMALLROOM
+            pReverb.preset = PresetReverb.PRESET_NONE
         }
 
         pReverb.enabled = true
