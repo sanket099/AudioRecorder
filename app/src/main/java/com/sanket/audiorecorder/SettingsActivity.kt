@@ -26,22 +26,20 @@ class SettingsActivity : AppCompatActivity() {
         setContentView(_binding.root)
         title = "Settings"
 
-
-
         //ids
-        val adapter = ArrayAdapter.createFromResource(this,
+        val reverbAdapter = ArrayAdapter.createFromResource(this,
                 R.array.reverb, R.layout.support_simple_spinner_dropdown_item)
-        adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item)
-        _binding.spinner1.adapter = adapter
+        reverbAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item)
+        _binding.spinner1.adapter = reverbAdapter
         _binding.spinner1.onItemSelectedListener = SpinnerReverb()
 
         _binding.spinner1.setSelection(getPrefs())
 
 
-        val adapter2 = ArrayAdapter.createFromResource(this,
+        val eqAdapter = ArrayAdapter.createFromResource(this,
                 R.array.eq, R.layout.support_simple_spinner_dropdown_item)
-        adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item)
-        _binding.spinner2.adapter = adapter2
+        eqAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item)
+        _binding.spinner2.adapter = eqAdapter
         _binding.spinner2.onItemSelectedListener = SpinnerEq()
 
         _binding.spinner2.setSelection(getEq())
