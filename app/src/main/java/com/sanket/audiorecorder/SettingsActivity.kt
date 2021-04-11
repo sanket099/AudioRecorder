@@ -31,18 +31,36 @@ class SettingsActivity : AppCompatActivity() {
                 R.array.reverb, R.layout.support_simple_spinner_dropdown_item)
         reverbAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item)
         _binding.spinner1.adapter = reverbAdapter
-        _binding.spinner1.onItemSelectedListener = SpinnerReverb()
-
         _binding.spinner1.setSelection(getPrefs())
+        _binding.spinner1.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                setPref(position)
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+
+            }
+
+        }
 
 
         val eqAdapter = ArrayAdapter.createFromResource(this,
                 R.array.eq, R.layout.support_simple_spinner_dropdown_item)
         eqAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item)
         _binding.spinner2.adapter = eqAdapter
-        _binding.spinner2.onItemSelectedListener = SpinnerEq()
-
         _binding.spinner2.setSelection(getEq())
+        _binding.spinner2.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                setEq(position)
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+
+            }
+
+        }
+
+
 
 
 
@@ -71,29 +89,6 @@ class SettingsActivity : AppCompatActivity() {
     }
 
 
-     internal class SpinnerReverb : OnItemSelectedListener {
-        override fun onItemSelected(parent: AdapterView<*>?, v: View, position: Int, id: Long) {
 
-            SettingsActivity().setPref(position)
-
-        }
-
-
-         override fun onNothingSelected(parent: AdapterView<*>?) {
-
-        }
-    }
-
-    internal class SpinnerEq : OnItemSelectedListener {
-        override fun onItemSelected(parent: AdapterView<*>?, v: View, position: Int, id: Long) {
-
-            SettingsActivity().setEq(position)
-
-        }
-
-        override fun onNothingSelected(parent: AdapterView<*>?) {
-
-        }
-    }
 
 }
