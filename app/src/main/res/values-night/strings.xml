@@ -3,7 +3,7 @@
     <string name="dialogTitle">Delete Audio?</string>
     <string name="dialogMessage">Are you sure you want to delete the audio</string>
 
-    <string-array name="numbers">
+    <string-array name="reverb">
         <item>None</item>
         <item>Small Room</item>
         <item>Medium Room</item>
@@ -11,6 +11,20 @@
         <item>Medium Hall</item>
         <item>Large Hall</item>
         <item>Steel Plate</item>
+    </string-array>
+
+    <string-array name="eq">
+
+        <item>Normal</item>
+        <item>Classical</item>
+        <item>Dance</item>
+        <item>Flat</item>
+        <item>Folk</item>
+        <item>Heavy Metal</item>
+        <item>Hip Hop</item>
+        <item>Jazz</item>
+        <item>Pop</item>
+        <item>Rock</item>
 
     </string-array>
 </resources>

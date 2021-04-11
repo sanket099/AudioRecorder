@@ -27,6 +27,7 @@ class PlayActivity : AppCompatActivity() {
     private var PRIVATE_MODE = 0
     private val PREF_NAME = "myPref"
     private val REVERB = "REVERB"
+    private val EQ = "EQ"
 
     private lateinit var audioArray : ArrayList<AudioFileClass>
 
@@ -379,15 +380,10 @@ class PlayActivity : AppCompatActivity() {
     }
 
      private fun setUpBooster() {
-
+         val sharedPref: SharedPreferences = getSharedPreferences(PREF_NAME, PRIVATE_MODE)
          val equalizer = Equalizer(2, mp!!.audioSessionId)
-
          equalizer.enabled = true
-
-         println("Eq ${equalizer.numberOfBands}") //it tells you the number of equalizer in device.
-
-
-         println("presets ${ equalizer.numberOfPresets }") //like Normal Classic,Dance Flat,Folk Heavy Metal,Hip Hop,Jazz, Pop, Rock
+         equalizer.usePreset(sharedPref.getInt(EQ, 0).toShort())
 
          try {
              val enhancer = LoudnessEnhancer(mp!!.audioSessionId)
@@ -473,11 +469,5 @@ class PlayActivity : AppCompatActivity() {
         contentResolver.insert(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, values)
 
     }
-
-
-
-
-
-
 
 }
