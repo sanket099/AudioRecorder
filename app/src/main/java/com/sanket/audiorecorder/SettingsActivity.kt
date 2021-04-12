@@ -73,8 +73,8 @@ class SettingsActivity : AppCompatActivity() {
 
         //ids
         val reverbAdapter = ArrayAdapter.createFromResource(this,
-                R.array.reverb, R.layout.support_simple_spinner_dropdown_item)
-        reverbAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item)
+                R.array.reverb, R.layout.spinner_text)
+        reverbAdapter.setDropDownViewResource(R.layout.spinner_text)
         _binding.spinner1.adapter = reverbAdapter
         _binding.spinner1.setSelection(getPrefs())
         _binding.spinner1.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
@@ -90,8 +90,8 @@ class SettingsActivity : AppCompatActivity() {
 
 
         val eqAdapter = ArrayAdapter.createFromResource(this,
-                R.array.eq, R.layout.support_simple_spinner_dropdown_item)
-        eqAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item)
+                R.array.eq, R.layout.spinner_text)
+        eqAdapter.setDropDownViewResource(R.layout.spinner_text)
         _binding.spinner2.adapter = eqAdapter
         _binding.spinner2.setSelection(getEq())
         _binding.spinner2.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
