@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:layout_marginBottom="32dp"
+        android:layout_marginBottom="29dp"
         android:fontFamily="@font/open_sans_semibold"
         android:text="Reverb"
         android:textColor="#FFFFFF"
@@ -27,11 +27,11 @@
         android:id="@+id/tv_presets"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+
         android:layout_marginStart="28dp"
         android:layout_marginTop="28dp"
         android:layout_marginEnd="75dp"
-
-        android:layout_marginBottom="29dp"
+        android:layout_marginBottom="28dp"
         android:fontFamily="@font/open_sans_semibold"
         android:text="Presets"
         android:textColor="#FFFFFF"
@@ -46,7 +46,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="20dp"
-        android:layout_marginBottom="26dp"
+        android:layout_marginBottom="28dp"
         android:padding="10dp"
         app:layout_constraintBottom_toTopOf="@+id/view_1"
         app:layout_constraintEnd_toEndOf="parent"
@@ -57,8 +57,8 @@
         android:id="@+id/view_1"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginBottom="22dp"
 
+        android:layout_marginBottom="23dp"
         android:background="@color/highlight"
         app:layout_constraintBottom_toTopOf="@+id/tv_custom_eq"
         app:layout_constraintEnd_toEndOf="parent"
@@ -83,41 +83,104 @@
         android:id="@+id/tv_presets_eq"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="28dp"
-        android:layout_marginEnd="75dp"
 
-        android:layout_marginBottom="30dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="31dp"
+        android:layout_marginEnd="75dp"
+        android:layout_marginBottom="153dp"
         android:fontFamily="@font/open_sans_semibold"
         android:text="Presets"
         android:textColor="#FFFFFF"
         android:textSize="16sp"
         app:layout_constraintBottom_toTopOf="@+id/view_2"
         app:layout_constraintEnd_toStartOf="@+id/spinner2"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_custom_eq" />
 
     <Spinner
         android:id="@+id/spinner2"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="20dp"
-        android:layout_marginBottom="31dp"
+        android:layout_marginBottom="37dp"
         android:padding="10dp"
-        app:layout_constraintBottom_toTopOf="@+id/view_2"
+        app:layout_constraintBottom_toTopOf="@+id/seek_band"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/tv_presets_eq"
         app:layout_constraintTop_toBottomOf="@+id/tv_custom_eq" />
+
+    <TextView
+        android:id="@+id/tv_bands_eq"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="84dp"
+        android:layout_marginBottom="97dp"
+        android:fontFamily="@font/open_sans_semibold"
+        android:text="Bands"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@+id/view_2"
+        app:layout_constraintEnd_toStartOf="@+id/seek_band"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_presets_eq" />
+
+
+    <TextView
+        android:id="@+id/tv_level_eq"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="36dp"
+        android:layout_marginEnd="84dp"
+        android:layout_marginBottom="35dp"
+        android:fontFamily="@font/open_sans_semibold"
+        android:text="Levels"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@+id/view_2"
+        app:layout_constraintEnd_toStartOf="@+id/seek_levels"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_bands_eq" />
+
+    <SeekBar
+        android:id="@+id/seek_band"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="43dp"
+        app:layout_constraintBottom_toTopOf="@+id/seek_levels"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/tv_bands_eq"
+        app:layout_constraintTop_toBottomOf="@+id/spinner2" />
+
+    <SeekBar
+        android:id="@+id/seek_levels"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
+
+
+        android:layout_marginBottom="36dp"
+        app:layout_constraintBottom_toTopOf="@+id/view_2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/tv_level_eq"
+        app:layout_constraintTop_toBottomOf="@+id/seek_band" />
 
     <View
         android:id="@+id/view_2"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginBottom="328dp"
 
+        android:layout_marginBottom="207dp"
         android:background="@color/highlight"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/spinner2" />
+        app:layout_constraintTop_toBottomOf="@+id/seek_levels" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

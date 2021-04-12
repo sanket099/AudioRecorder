@@ -28,6 +28,8 @@ class PlayActivity : AppCompatActivity() {
     private val PREF_NAME = "myPref"
     private val REVERB = "REVERB"
     private val EQ = "EQ"
+    private val BAND = "BAND"
+    private val LEVELS = "LEVEL"
 
     private lateinit var audioArray : ArrayList<AudioFileClass>
 
@@ -383,6 +385,14 @@ class PlayActivity : AppCompatActivity() {
          val sharedPref: SharedPreferences = getSharedPreferences(PREF_NAME, PRIVATE_MODE)
          val equalizer = Equalizer(2, mp!!.audioSessionId)
          equalizer.enabled = true
+         // eq band and level
+         println("bandslevels")
+         println( equalizer.getBandLevel(3))
+
+
+         println(equalizer.numberOfBands)
+
+         //equalizer.setBandLevel(sharedPref.getInt(BAND,5).toShort() , sharedPref.getInt(LEVELS, 0).toShort())
          equalizer.usePreset(sharedPref.getInt(EQ, 0).toShort())
 
          try {
